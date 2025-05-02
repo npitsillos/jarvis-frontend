@@ -2,16 +2,18 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import Link from "next/link";
+import Link from "next/link"
 import { z } from "zod"
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useAuth } from "@/lib/auth/auth-context";
+import { useAuth } from "@/lib/auth/auth-context"
 
 const signUpSchema = z.object({
-    name: z.string(),
-    email: z.string().email({ message: "Invalid email address"}),
-    password: z.string().min(6, {message: "Password must be at least 6 characters"})
+  name: z.string(),
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
 })
 
 type SignUpSchema = z.infer<typeof signUpSchema>
@@ -20,21 +22,25 @@ export function SignUpForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
-    const {
-        register,
-        handleSubmit,
-        formState: {errors}
-      } = useForm<SignUpSchema>({
-        resolver: zodResolver(signUpSchema),
-      })
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<SignUpSchema>({
+    resolver: zodResolver(signUpSchema),
+  })
   const { register: registerUser } = useAuth()
-  
+
   async function onSubmit(data: SignUpSchema) {
     await registerUser(data.email, data.password)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Sign Up for an Account</h1>
         <p className="text-muted-foreground text-sm text-balance">
@@ -44,20 +50,43 @@ export function SignUpForm({
       <div className="grid gap-6">
         <div className="grid gap-3">
           <Label htmlFor="name">Name</Label>
-          <Input id="name" type="name" placeholder="John Doe" required {...register('name')}/>
-          {errors.name && <p className="text-sm text-red-500">{errors.name.message}</p>}
+          <Input
+            id="name"
+            type="name"
+            placeholder="John Doe"
+            required
+            {...register("name")}
+          />
+          {errors.name && (
+            <p className="text-sm text-red-500">{errors.name.message}</p>
+          )}
         </div>
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="me@example.com" required {...register('email')}/>
-          {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+          <Input
+            id="email"
+            type="email"
+            placeholder="me@example.com"
+            required
+            {...register("email")}
+          />
+          {errors.email && (
+            <p className="text-sm text-red-500">{errors.email.message}</p>
+          )}
         </div>
         <div className="grid gap-3">
           <div className="flex items-center">
             <Label htmlFor="password">Password</Label>
           </div>
-          <Input id="password" type="password" required {...register('password')}/>
-          {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+          <Input
+            id="password"
+            type="password"
+            required
+            {...register("password")}
+          />
+          {errors.password && (
+            <p className="text-sm text-red-500">{errors.password.message}</p>
+          )}
         </div>
         <div className="grid gap-3">
           <div className="flex items-center">
@@ -85,7 +114,9 @@ export function SignUpForm({
       </div>
       <div className="text-center text-sm">
         Already have an account?{" "}
-        <Link href={"/login"} className="underline underline-offset-4">Login</Link>
+        <Link href={"/login"} className="underline underline-offset-4">
+          Login
+        </Link>
       </div>
     </form>
   )

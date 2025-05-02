@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
-import { authMiddleware } from "./lib/auth/middleware";
+import { NextRequest, NextResponse } from "next/server"
+import { authMiddleware } from "./lib/auth/middleware"
 
 type Middleware = (req: NextRequest) => NextResponse | Promise<NextResponse>
 
@@ -15,10 +15,9 @@ function composedMiddleware(middlewares: Middleware[]) {
   }
 }
 
-export const middleware = composedMiddleware([
-  authMiddleware
-])
+export const middleware = composedMiddleware([authMiddleware])
 
 export const config = {
-  matcher: "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+  matcher:
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
 }

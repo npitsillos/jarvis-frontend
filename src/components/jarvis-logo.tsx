@@ -25,10 +25,16 @@ export function JarvisLogoHomeButton() {
         alt="Jarvis logo"
       />
     </Link>
-    )
-  }
+  )
+}
 
-export function JarvisLogoImage({width, height}: {width: number, height: number}) {
+export function JarvisLogoImage({
+  width,
+  height,
+}: {
+  width: number
+  height: number
+}) {
   const [mounted, setMounted] = useState(false)
   const { theme } = useTheme()
 

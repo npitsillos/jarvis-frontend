@@ -2,15 +2,17 @@ import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import Link from "next/link";
+import Link from "next/link"
 import { z } from "zod"
-import { useForm } from "react-hook-form";
+import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
-import { useAuth } from "@/lib/auth/auth-context";
+import { useAuth } from "@/lib/auth/auth-context"
 
 const loginSchema = z.object({
-    email: z.string().email({ message: "Invalid email address"}),
-    password: z.string().min(6, {message: "Password must be at least 6 characters"})
+  email: z.string().email({ message: "Invalid email address" }),
+  password: z
+    .string()
+    .min(6, { message: "Password must be at least 6 characters" }),
 })
 
 type LoginSchema = z.infer<typeof loginSchema>
@@ -19,20 +21,24 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentProps<"form">) {
-    const {
-      register,
-      handleSubmit,
-      formState: {errors}
-    } = useForm<LoginSchema>({
-            resolver: zodResolver(loginSchema),
-          })
-      const { login } = useAuth()
-      
-      async function onSubmit(data: LoginSchema) {
-        await login(data.email, data.password)
-      }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    resolver: zodResolver(loginSchema),
+  })
+  const { login } = useAuth()
+
+  async function onSubmit(data: LoginSchema) {
+    await login(data.email, data.password)
+  }
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className={cn("flex flex-col gap-6", className)} {...props}>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className={cn("flex flex-col gap-6", className)}
+      {...props}
+    >
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Login to your account</h1>
         <p className="text-muted-foreground text-sm text-balance">
@@ -42,8 +48,16 @@ export function LoginForm({
       <div className="grid gap-6">
         <div className="grid gap-3">
           <Label htmlFor="email">Email</Label>
-          <Input id="email" type="email" placeholder="me@example.com" required {...register('email')}/>
-          {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
+          <Input
+            id="email"
+            type="email"
+            placeholder="me@example.com"
+            required
+            {...register("email")}
+          />
+          {errors.email && (
+            <p className="text-sm text-red-500">{errors.email.message}</p>
+          )}
         </div>
         <div className="grid gap-3">
           <div className="flex items-center">
@@ -55,8 +69,15 @@ export function LoginForm({
               Forgot your password?
             </a>
           </div>
-          <Input id="password" type="password" required {...register('password')}/>
-          {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
+          <Input
+            id="password"
+            type="password"
+            required
+            {...register("password")}
+          />
+          {errors.password && (
+            <p className="text-sm text-red-500">{errors.password.message}</p>
+          )}
         </div>
         <Button type="submit" className="w-full">
           Login
@@ -78,7 +99,9 @@ export function LoginForm({
       </div>
       <div className="text-center text-sm">
         Don&apos;t have an account?{" "}
-        <Link href={"/signup"} className="underline underline-offset-4">Sign up</Link>
+        <Link href={"/signup"} className="underline underline-offset-4">
+          Sign up
+        </Link>
       </div>
     </form>
   )
