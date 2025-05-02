@@ -1,8 +1,8 @@
 import { SignUp } from "./signup"
 
 export const metadata = {
-    title: 'Sign Up'
+  title: "Sign Up",
 }
 export default async function LoginPage() {
-    return <SignUp />
+  return <SignUp />
 }
