@@ -1,8 +1,14 @@
 "use client"
 
 import * as React from "react"
-import { BookOpen, Bot, SquareTerminal } from "lucide-react"
-
+import {
+  SquareTerminal,
+  User,
+  Info,
+  Settings2,
+  MessageCircleQuestion,
+} from "lucide-react"
+import { usePathname } from "next/navigation"
 import { NavMain } from "@/components/nav-main"
 import {
   Sidebar,
@@ -15,74 +21,44 @@ import {
 } from "@/components/ui/sidebar"
 import { JarvisLogoHomeButton } from "./jarvis-logo"
 
-const data = {
-  navMain: [
-    {
-      title: "Playground",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
-      items: [
-        {
-          title: "History",
-          url: "#",
-        },
-        {
-          title: "Starred",
-          url: "#",
-        },
-        {
-          title: "Settings",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Models",
-      url: "#",
-      icon: Bot,
-      items: [
-        {
-          title: "Genesis",
-          url: "#",
-        },
-        {
-          title: "Explorer",
-          url: "#",
-        },
-        {
-          title: "Quantum",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Documentation",
-      url: "#",
-      icon: BookOpen,
-      items: [
-        {
-          title: "Introduction",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
-        },
-      ],
-    },
-  ],
-}
+const navMain = [
+  {
+    title: "Apps",
+    url: "/",
+    icon: SquareTerminal,
+    isActive: true,
+  },
+  {
+    title: "Plex Request",
+    url: "/plex-request",
+    icon: MessageCircleQuestion,
+    isActive: false,
+  },
+]
+
+const accountNav = [
+  {
+    title: "Account",
+    icon: User,
+    isActive: true,
+    url: "#",
+    items: [
+      {
+        title: "Information",
+        url: "#",
+        icon: Info,
+      },
+      {
+        title: "Settings",
+        url: "#",
+        icon: Settings2,
+      },
+    ],
+  },
+]
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const pathName = usePathname()
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
@@ -104,7 +80,9 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
+        <NavMain
+          items={pathName.startsWith("/account") ? accountNav : navMain}
+        />
       </SidebarContent>
       <SidebarRail />
     </Sidebar>

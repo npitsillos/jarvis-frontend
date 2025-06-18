@@ -1,6 +1,6 @@
 "use client"
 
-import { BadgeCheck, LogOut } from "lucide-react"
+import { BadgeCheck, Bell, LogOut } from "lucide-react"
 import {
   Avatar,
   AvatarFallback,
@@ -20,7 +20,7 @@ import { Skeleton } from "./ui/skeleton"
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 
-export function UserAvatar() {
+export function UserNav() {
   const { user, loading, logout } = useAuth()
   const [open, setOpen] = useState(false)
   const router = useRouter()
@@ -88,6 +88,17 @@ export function UserAvatar() {
           <DropdownMenuItem onClick={() => handleClick()}>
             <BadgeCheck />
             Account
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => handleClick()}>
+            <Bell />
+            Notifications
+            <span>
+              {
+                user?.notifications.filter(
+                  (notification) => notification.viewed
+                ).length
+              }
+            </span>
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
