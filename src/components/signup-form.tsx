@@ -3,18 +3,30 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import Link from "next/link"
-import { z } from "zod"
+import { z } from "zod/v4"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useAuth } from "@/lib/auth/auth-context"
 
-const signUpSchema = z.object({
-  name: z.string(),
-  email: z.string().email({ message: "Invalid email address" }),
-  password: z
-    .string()
-    .min(6, { message: "Password must be at least 6 characters" }),
-})
+const signUpSchema = z
+  .object({
+    name: z.string(),
+    email: z.email({ message: "Invalid email address" }),
+    password: z
+      .string()
+      .min(6, { message: "Password must be at least 6 characters" }),
+    confirmPassword: z.string(),
+  })
+  .check((ctx) => {
+    if (ctx.value.password !== ctx.value.confirmPassword) {
+      ctx.issues.push({
+        code: "custom",
+        input: ctx.value,
+        message: "Passwords don't match",
+        path: ["confirmPassword"],
+      })
+    }
+  })
 
 type SignUpSchema = z.infer<typeof signUpSchema>
 
@@ -32,7 +44,11 @@ export function SignUpForm({
   const { register: registerUser } = useAuth()
 
   async function onSubmit(data: SignUpSchema) {
-    await registerUser(data.email, data.password)
+    await registerUser({
+      first_name: data.name,
+      email: data.email,
+      password: data.password,
+    })
   }
 
   return (
@@ -44,7 +60,7 @@ export function SignUpForm({
       <div className="flex flex-col items-center gap-2 text-center">
         <h1 className="text-2xl font-bold">Sign Up for an Account</h1>
         <p className="text-muted-foreground text-sm text-balance">
-          Enter your email below to login to your account
+          Enter your email below to sign up for an account
         </p>
       </div>
       <div className="grid gap-6">
@@ -92,7 +108,17 @@ export function SignUpForm({
           <div className="flex items-center">
             <Label htmlFor="password">Confirm Password</Label>
           </div>
-          <Input id="password" type="password" required />
+          <Input
+            id="password"
+            type="password"
+            required
+            {...register("confirmPassword")}
+          />
+          {errors.confirmPassword && (
+            <p className="text-sm text-red-500">
+              {errors.confirmPassword.message}
+            </p>
+          )}
         </div>
         <Button type="submit" className="w-full">
           Sign Up

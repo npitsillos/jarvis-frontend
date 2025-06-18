@@ -1,5 +1,3 @@
-"use client"
-
 import { useAuth } from "@/lib/auth/auth-context"
 import { Skeleton } from "@/components/ui/skeleton"
 

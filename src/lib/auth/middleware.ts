@@ -13,7 +13,7 @@ export async function authMiddleware(request: NextRequest) {
   }
 
   try {
-    const res = await fetch("http://localhost:8000/users/me", {
+    const res = await fetch("http://localhost:8080/users/me", {
       credentials: "include",
       headers: {
         cookie: request.headers.get("cookie") || "",

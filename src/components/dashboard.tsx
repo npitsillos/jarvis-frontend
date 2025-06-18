@@ -1,6 +1,6 @@
 "use client"
 import { AppSidebar } from "@/components/app-sidebar"
-import { UserAvatar } from "@/components/user-avatar"
+import { UserNav } from "@/components/user-nav"
 import { ModeToggle } from "@/components/mode-toggle"
 import {
   SidebarInset,
@@ -19,7 +19,7 @@ export default function Dashboard({ children }: { children: React.ReactNode }) {
           </div>
           <div className="px-4 flex gap-2">
             <ModeToggle />
-            <UserAvatar />
+            <UserNav />
           </div>
         </header>
         {children}
