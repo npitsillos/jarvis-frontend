@@ -24,13 +24,13 @@ import { JarvisLogoHomeButton } from "./jarvis-logo"
 const navMain = [
   {
     title: "Apps",
-    url: "#",
+    url: "/",
     icon: SquareTerminal,
     isActive: true,
   },
   {
     title: "Plex Request",
-    url: "#",
+    url: "/plex-request",
     icon: MessageCircleQuestion,
     isActive: false,
   },
